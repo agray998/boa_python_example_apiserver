@@ -1,0 +1,13 @@
+[Unit]
+Description=Flask Application
+[Service]
+User=flask-app
+WorkingDirectory=/opt/flask-app
+ExecStart=/bin/bash \
+	-c 'cd /opt/flask-app && \
+	source ./venv/bin/activate && \
+	python ./app.py'
+[Install]
+WantedBy=multi-user.target
+
+
