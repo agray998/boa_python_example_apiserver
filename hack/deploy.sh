@@ -1,7 +1,8 @@
 #! /bin/sh
 
 service_user='flask-app'
-install_directory='/opt/flask-app'
+service_name='flask-app'
+install_directory="/opt/${service_name}"
 
 main() {
     check_user_is_root
@@ -40,9 +41,9 @@ install_pip_dependencies() {
 }
 
 install_systemd_unit() {
-    cp flask-app.service /etc/systemd/system/flask-app.service
+    cp ${service_name}.service /etc/systemd/system/${service_name}.service
     systemctl daemon-reload
-    systemctl restart flask-app
+    systemctl restart ${service_name}
 }
 
 main
