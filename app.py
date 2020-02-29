@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, jsonify, Response
 
 app = Flask(__name__)
 
@@ -12,11 +12,11 @@ def post_text():
 
 @app.route('/get/json', methods=['GET'])
 def get_json():
-    return Response({"data": "Hello from Flask"}, mimetype='application/json')
+    return jsonify({"data": "Hello from Flask"})
 
 @app.route('/post/json', methods=['POST'])
 def post_json():
-    return Response({"data": request.get_json()}, mimetype='application/json')
+    return jsonify({"data": request.get_json()})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
