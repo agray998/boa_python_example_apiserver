@@ -12,10 +12,10 @@ sudo ./hack/deploy.sh
 ## Routes
 The API setup is running on port `5000` and has the following routes configured:
 
-| Route | Description |
-|--|--|
-|`/get/text`|Return a simple text message: *"Hello from Flask"*|
-|`/post/text`|Return the data from request back as a part of a string: *"Data you sent: `[DATA_YOU_SENT]`"*|
-|`/get/json`|Return a JSON object containing a `data` property with a message: `{"data": "Hello from Flask"}`|
-|`/post/json`|Return the data from request back as a `data` property inside of a JSON: `{"data": "[DATA_THAT_WAS_SENT]"}`|
+| Route | Description | Content Type|
+|--|--|--|
+|`/get/text`|Return a simple text message: *"Hello from Flask"*|`text/plain`|
+|`/post/text`|Return the data from request back as a part of a string: *"Data you sent: `[DATA_YOU_SENT]`"*|`text/plain`|
+|`/get/json`|Return a JSON object containing a `data` property with a message: `{"data": "Hello from Flask"}`|`application/json`|
+|`/post/json`|Return the data from request back as a `data` property inside of a JSON: `{"data": "[DATA_THAT_WAS_SENT]"}`|`application/json`|
 

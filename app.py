@@ -8,7 +8,7 @@ def get_text():
 
 @app.route('/post/text', methods=['POST'])
 def post_text():
-    return request.data
+    return "Data you sent: " + request.data.decode("utf-8")
 
 @app.route('/get/json', methods=['GET'])
 def get_json():
