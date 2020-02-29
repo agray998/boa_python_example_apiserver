@@ -1,7 +1,7 @@
 # Python Flask Example API
-## Setup
-The `./hack/deploy.sh` script will be able to deploy this application.
 
+## Setup
+The `./hack/deploy.sh` script will be able to deploy this application:
 ```bash
 mkdir -p ~/projects/gitlab.com/qacdevops && cd $_
 git clone https://gitlab.com/qacdevops/python-flask-example-api

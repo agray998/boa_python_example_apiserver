@@ -10,6 +10,14 @@ def get_text():
 def post_text():
     return request.data
 
+@app.route('/get/json', methods=['GET'])
+def get_json():
+    return {"data": "Hello from Flask"}
+
+@app.route('/post/json', methods=['POST'])
+def post_json():
+    return {"data": request.data}
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
 
