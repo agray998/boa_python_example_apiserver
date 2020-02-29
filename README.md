@@ -1,6 +1,15 @@
 # Python Flask Example API
 
 ## Setup
+
+### Prerequisites
+Python 3, Virtual Environment & Git need to be installed:
+```bash
+sudo apt update 
+sudo apt install -y python3 python3-venv git
+```
+
+### Installation
 The `./hack/deploy.sh` script will be able to deploy this application:
 ```bash
 mkdir -p ~/projects/gitlab.com/qacdevops && cd $_
