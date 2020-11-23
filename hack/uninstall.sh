@@ -23,7 +23,8 @@ uninstall_application_files() {
 }
 
 uninstall_systemd_unit() {
-    rm -rf ${service_name}.service
+    systemctl stop ${service_name}
+    rm -rf /etc/systemd/system/${service_name}.service
     systemctl daemon-reload
 }
 
