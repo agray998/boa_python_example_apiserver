@@ -4,6 +4,10 @@ from secrets import token_hex, compare_digest
 import hashlib
 import re
 
+books = []
+authors = []
+reviews = []
+
 users = {"learner":"p@ssword"}
 valid_tokens = {user: [] for user in users.keys()}
 
@@ -11,9 +15,12 @@ app = Flask(__name__)
 
 def is_valid_token(token):
     valid = False
-    for t in valid_tokens:
-        if compare_digest(t, token):
-            valid = True
+    for ts in valid_tokens.values():
+        for t in ts:
+            if compare_digest(t, token):
+                valid = True
+                break
+        if valid:
             break
     return valid
 
@@ -33,7 +40,7 @@ def validate_response(auth_params, method):
     expected = hashlib.md5(f'{ha1}:{nonce}:{nc}:{cnonce}:{qop}:{ha2}'.encode('utf-8')).hexdigest()
     return expected == response
 
-@app.route('/tokens', methods=['POST'])
+@app.route('/auth/tokens', methods=['POST'])
 def get_new_token():
     if not request.headers.get('Authorization', ''):
         nonce = token_hex(16)
@@ -46,24 +53,88 @@ def get_new_token():
         new_token = token_hex(32)
         valid_tokens[user].append(new_token)
         return Response(new_token, mimetype='text/plain')
-    return f"Auth failure: expected {expected}, got {response}", 401
+    return f"Auth failure", 401
 
-@app.route('/text', methods=['GET', 'POST'])
-def handle_text():
+@app.route('/api/authors', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def handle_authors():
     if request.method == 'GET':
-        return Response('Hello from Flask', mimetype='text/plain')
+        return jsonify(authors)
     else:
-        return Response("Data you sent: " + request.data.decode('utf-8'), mimetype='text/plain')
-
-@app.route('/json', methods=['GET', 'POST'])
-def handle_json():
-    if request.method == 'GET':
-        return jsonify({"data": "Hello from Flask"})
-    else:
-        request_token = request.headers["Authorization"].split(" ")[1]
+        request_token = request.headers.get("Authorization", "auth not defined").split(" ")[1]
         if not is_valid_token(request_token):
             return "Unauthorized", 401
-        return jsonify({"data": request.get_json()})
+        author_data = request.get_json()
+        if request.method == 'POST':
+            authors.append(author_data)
+            return author_data
+        elif request.method == 'PUT':
+            for i, a in enumerate(authors):
+                if a.get("id") == author_data["id"]:
+                    authors[i] = author_data
+                    break
+            return author_data
+        elif request.method == 'DELETE':
+            for i, a in enumerate(authors):
+                if a.get("id") == author_data["id"]:
+                    del authors[i]
+                    break
+            return author_data
+        else:
+            return "Method Not Allowed", 405
+
+@app.route('/api/books', methods=['GET', 'POST'])
+def handle_books():
+    if request.method == 'GET':
+        return jsonify(books)
+    else:
+        request_token = request.headers.get("Authorization", "auth not defined").split(" ")[1]
+        if not is_valid_token(request_token):
+            return "Unauthorized", 401
+        book_data = request.get_json()
+        if request.method == 'POST':
+            books.append(book_data)
+            return book_data
+        elif request.method == 'PUT':
+            for i, b in enumerate(books):
+                if b.get("id") == book_data["id"]:
+                    books[i] = book_data
+                    break
+            return book_data
+        elif request.method == 'DELETE':
+            for i, b in enumerate(books):
+                if b.get("id") == book_data["id"]:
+                    del books[i]
+                    break
+            return book_data
+        else:
+            return "Method Not Allowed", 405
+    
+@app.route('/api/reviews', methods=['GET', 'POST'])
+def handle_reviews():
+    if request.method == 'GET':
+        return jsonify(reviews)
+    else:
+        request_token = request.headers.get("Authorization", "auth not defined").split(" ")[1]
+        if not is_valid_token(request_token):
+            return "Unauthorized", 401
+        review_data = request.get_json()
+        if request.method == 'POST':
+            reviews.append(review_data)
+            return review_data
+        elif request.method == 'PUT':
+            for i, r in enumerate(reviews):
+                if r.get("id") == review_data["id"]:
+                    reviews[i] = review_data
+                    break
+            return review_data
+        elif request.method == 'DELETE':
+            for i, r in enumerate(reviews):
+                if r.get("id") == review_data["id"]:
+                    del reviews[i]
+                    break
+            return review_data
+        else:
+            return "Method Not Allowed", 405
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
