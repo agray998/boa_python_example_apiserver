@@ -27,9 +27,12 @@ def process_book_data(book):
     sleep(1)
     return bookstr
 
-if __name__ == '__main__':
+def main():
     books = requests.get('http://localhost:5000/api/books').json()
     for i in ids:
         book = get_book(i, books)
         print(process_book_data(book))
+
+if __name__ == '__main__':
+    main()
 
