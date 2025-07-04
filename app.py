@@ -3,6 +3,7 @@ from secrets import token_hex, compare_digest
 # import time
 import hashlib
 import re
+import random
 
 books = []
 authors = []
@@ -54,6 +55,12 @@ def get_new_token():
         valid_tokens[user].append(new_token)
         return Response(new_token, mimetype='text/plain')
     return f"Auth failure", 401
+
+@app.route('/api/flaky', methods=['GET'])
+def flaky():
+    if random.randint(0, 10) > 5:
+        return "Oopsie", 500, {"ERROR": "Bad luck"}
+    return {"result": "success", "data": [1, 2, 3]}, 200
 
 @app.route('/api/authors', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def handle_authors():
