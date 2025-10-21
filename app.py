@@ -89,7 +89,7 @@ def handle_authors():
         else:
             return "Method Not Allowed", 405
 
-@app.route('/api/books', methods=['GET', 'POST'])
+@app.route('/api/books', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def handle_books():
     if request.method == 'GET':
         return jsonify(books)
