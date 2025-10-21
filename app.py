@@ -47,7 +47,7 @@ def get_new_token():
         nonce = token_hex(16)
         opaque = token_hex(16)
         return "Unauthorized", 401, {"WWW-Authenticate": f'Digest realm="example@api.com", nonce="{nonce}", opaque="{opaque}", qop="auth"'}
-    reg = re.compile('(\w+)[=] ?"?([a-zA-Z0-9_@./]+)"?')
+    reg = re.compile('([a-zA-Z0-9_]+)[=] ?"?([a-zA-Z0-9_@./]+)"?')
     auth_params = dict(reg.findall(request.headers.get("Authorization")))
     user = auth_params.get('username', '')
     if validate_response(auth_params, request.method):
