@@ -1,21 +1,19 @@
 # Python Flask Example API
 
 ## Setup
-
 ### Prerequisites
-Python 3, Virtual Environment & Git need to be installed:
+Python 3, Pip, Virtual Environment & Git need to be installed:
 ```bash
 sudo apt update 
-sudo apt install -y python3 python3-venv git
+sudo apt install -y python3 python3-pip python3-venv git
 ```
 
-### Installation
-The `./hack/deploy.sh` script will be able to deploy this application:
+### Launch
+Install dependencies and run:
 ```bash
-mkdir -p ~/projects/gitlab.com/qacdevops && cd $_
-git clone https://gitlab.com/qacdevops/python-flask-example-api
-cd python-flask-example-api
-sudo ./hack/deploy.sh
+python3 -m venv venv
+venv/bin/python3 -m pip install -r requirements.txt
+venv/bin/python3 app.py &
 ```
 
 ## Routes
@@ -23,8 +21,8 @@ The API setup is running on port `5000` and has the following routes configured:
 
 | Route | Description | Content Type|
 |--|--|--|
-|`/get/text`|Return a simple text message: *"Hello from Flask"*|`text/plain`|
-|`/post/text`|Return the data from request back as a part of a string: *"Data you sent: `[DATA_YOU_SENT]`"*|`text/plain`|
-|`/get/json`|Return a JSON object containing a `data` property with a message: `{"data": "Hello from Flask"}`|`application/json`|
-|`/post/json`|Return the data from request back as a `data` property inside of a JSON: `{"data": "[DATA_THAT_WAS_SENT]"}`|`application/json`|
+|`/api/books`|Create,Read,Update,Delete Book objects|`application/json`|
+|`/api/authors`|Create,Read,Update,Delete Author objects|`application/json`|
+|`/api/reviews`|Create,Read,Update,Delete Review objects|`application/json`|
+|`/auth/tokens`|Validate user digest auth credentials and return a bearer token if valid|`text/plain`|
 
